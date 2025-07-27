@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  backend:
+    build:
+      context: .
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    expose:
+      - "3000" # ไม่ map port เพราะมี nginx
+    depends_on:
+      - redis
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
