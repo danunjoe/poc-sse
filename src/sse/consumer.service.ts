@@ -82,6 +82,7 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
         return {
             type: data.type,
             content: data.content,
+            status: data.status as any,
             is_show_alert: data.is_show_alert === 'true',
             target_scope: data.target_scope as any,
             staff_id: data.staff_id ? JSON.parse(data.staff_id) : [],

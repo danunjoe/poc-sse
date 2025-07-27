@@ -5,10 +5,13 @@ import { Controller, Get } from '@nestjs/common';
 export class OverrideController {
   @Get()
   getOverrides() {
+    const now: Date = new Date();
+    const timestamp: number = now.getTime();
+
     const mockData = [
       {
         type: 'alert',
-        content: 'System override triggered',
+        content: 'System override triggered' + Math.random(),
         is_show: true,
         target_scope: 'role',
         staff_id: ['201', '202'],
@@ -17,7 +20,7 @@ export class OverrideController {
       },
       {
         type: 'warning',
-        content: 'Override limit reached',
+        content: 'Override limit reached ' + Math.random(),
         is_show: false,
         target_scope: 'branch',
         staff_id: [],
@@ -26,6 +29,9 @@ export class OverrideController {
       },
     ];
 
-    return { data: mockData };
+    return {
+      data: mockData,
+      last_update: new Date()
+    };
   }
 }
