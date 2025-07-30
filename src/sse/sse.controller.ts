@@ -8,10 +8,12 @@ import {
     MessageEvent,
     Post,
     Body,
+    UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { SseService } from './sse.service';
 import { SendMessageDto } from './dto/send-message.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('sse')
 export class SseController {
@@ -19,6 +21,7 @@ export class SseController {
         private readonly sseService: SseService,
     ) { }
 
+    // @UseGuards(JwtAuthGuard)
     @Get()
     async connect(
         @Query('staff_id') staff_id: string,
@@ -27,6 +30,14 @@ export class SseController {
         @Req() req: any,
         @Res() res: Response,
     ) {
+
+        // const user = req.user as any;
+        // console.log('🔐 Authenticated SSE:', user);
+
+        // const staff_id = user.staff_id;
+        // const role_id = user.role_id;
+        // const branch_code = user.branch_code;
+
         res.set({
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
